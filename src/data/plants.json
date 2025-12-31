@@ -1,0 +1,17 @@
+{
+    "plants": [
+        {
+            "id": "plant_monstera_deliciosa",
+            "common_name": "Monstera Deliciosa",
+            "scientific_name": "Monstera deliciosa",
+            "family": "Araceae",
+            "difficulty": "easy",
+            "light": [
+                "low",
+                "medium"
+            ],
+            "watering": "low",
+            "supported": true
+        }
+    ]
+}

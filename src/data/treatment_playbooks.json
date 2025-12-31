@@ -1,0 +1,40 @@
+{
+    "snake_plant": [
+        {
+            "id": "playbook_root_rot_basic",
+            "problem_id": "problem_root_rot",
+            "title": "Treating Root Rot in Aroids",
+            "difficulty": "medium",
+            "required_items": [
+                "Sterilized shears",
+                "Fresh potting mix",
+                "Hydrogen peroxide",
+                "New pot"
+            ],
+            "steps": [
+                {
+                    "step_number": 1,
+                    "description": "Remove the plant from its pot and gently wash away old soil."
+                },
+                {
+                    "step_number": 2,
+                    "description": "Inspect roots. Healthy roots are firm and white/tan. Rotten roots are mushy, slimy, and dark."
+                },
+                {
+                    "step_number": 3,
+                    "description": "Trim away all rotten roots using sterilized shears."
+                },
+                {
+                    "step_number": 4,
+                    "description": "Dip remaining roots in a diluted hydrogen peroxide solution (1 part 3% H2O2 to 3 parts water) to kill fungus."
+                },
+                {
+                    "step_number": 5,
+                    "description": "Repot in fresh, well-draining soil mix."
+                }
+            ],
+            "follow_up_days": 7,
+            "confidence": "high"
+        }
+    ]
+}

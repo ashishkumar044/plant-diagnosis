@@ -1,0 +1,8 @@
+[
+    {
+        "plant_id": "plant_monstera_deliciosa",
+        "susceptible_problems": [
+            "problem_root_rot"
+        ]
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "id": "problem_root_rot",
+        "name": "Root Rot",
+        "type": "disease",
+        "description": "Fungal disease caused by overwatering or poor drainage, leading to decaying roots.",
+        "common_symptoms": [
+            "yellow_leaves",
+            "mushy_stems",
+            "foul_smell_soil",
+            "stunted_growth"
+        ]
+    }
+]
