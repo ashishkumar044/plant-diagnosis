@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { DiagnosisEngine } from '../src/services/diagnosis_engine';
+import { createDiagnosisService } from '../src/services/diagnosis_engine';
 import { Problem, PlantProblemMatrix } from '../src/types/knowledge_base';
 import { DiagnosisInput } from '../src/types/diagnosis';
 
@@ -29,7 +29,7 @@ const MOCK_MATRIX: PlantProblemMatrix[] = [
 ];
 
 describe('DiagnosisEngine', () => {
-    const engine = new DiagnosisEngine(MOCK_PROBLEMS, MOCK_MATRIX);
+    const diagnosisService = createDiagnosisService(MOCK_PROBLEMS, MOCK_MATRIX);
 
     it('SCENARIO 1: Clear Overwatering (Matrix boost + High Overlap)', () => {
         const input: DiagnosisInput = {
@@ -42,7 +42,7 @@ describe('DiagnosisEngine', () => {
             ],
         };
 
-        const results = engine.diagnosePlant(input);
+        const results = diagnosisService.diagnose(input);
 
         expect(results.length).toBeGreaterThan(0);
         const topResult = results[0];
@@ -63,18 +63,11 @@ describe('DiagnosisEngine', () => {
             ],
         };
 
-        const results = engine.diagnosePlant(input);
+        const results = diagnosisService.diagnose(input);
 
-        // Should return Underwatering (score > 0) and maybe Root Rot (score > 0 due to yellow_leaves + matrix)
-        // But Underwatering should match 'dry_soil' which Rot doesn't have.
-        // However, Root Rot is in MATRIX for plant_1. Underwatering is NOT.
-        // Let's see who wins.
-        // Root Rot: Matrix (0.2) + 1/3 match (0.2) + 1/2 precision (0.1) = ~0.5
-        // Underwatering: Matrix (0) + 2/3 match (0.4) + 2/2 precision (0.2) = ~0.6
-        // Underwatering matches MORE symptoms, so it should hopefully win despite not being "susceptible" in matrix?
-        // Actually, precision weighting helps here.
-
-        const underwatering = results.find(r => r.problem.id === 'prob_underwatering');
+        const underwatering = results.find(
+            (r) => r.problem.id === 'prob_underwatering'
+        );
         expect(underwatering).toBeDefined();
 
         // Ensure we are getting sensible scores
@@ -85,12 +78,10 @@ describe('DiagnosisEngine', () => {
         const input: DiagnosisInput = {
             plantId: 'plant_unknown', // Not in matrix
             plantConfidence: 0.1,
-            symptoms: [
-                { name: 'yellow_leaves', source: 'user' }
-            ],
+            symptoms: [{ name: 'yellow_leaves', source: 'user' }],
         };
 
-        const results = engine.diagnosePlant(input);
+        const results = diagnosisService.diagnose(input);
 
         // Should get matches based purely on symptoms
         expect(results.length).toBeGreaterThan(0);

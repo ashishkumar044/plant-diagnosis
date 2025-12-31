@@ -1,13 +1,12 @@
 import Router from 'koa-router';
 import { z } from 'zod'; // zod is installed
 import crypto from 'crypto';
-import { DiagnosisEngine } from '../services/diagnosis_engine';
-import { ExplanationService } from '../services/explanation_service';
+import { createDiagnosisService } from '../services/diagnosis_engine';
+import { generateExplanation } from '../services/explanation_service';
 import { run } from '../db';
 
 const router = new Router();
-const diagnosisEngine = new DiagnosisEngine();
-const explanationService = new ExplanationService();
+const diagnosisService = createDiagnosisService();
 
 // Input Validation Schema
 const DiagnosisRequestSchema = z.object({
@@ -36,7 +35,7 @@ router.post('/diagnose', async (ctx) => {
     const { plantId, plantConfidence, symptoms, imagePath } = parseResult.data;
 
     // 2. Run Diagnosis
-    const results = diagnosisEngine.diagnosePlant({
+    const results = diagnosisService.diagnose({
         plantId,
         plantConfidence,
         symptoms,
@@ -74,7 +73,7 @@ router.post('/diagnose', async (ctx) => {
     // Log Outputs & Generate Explanations
     const resultsWithExplanation = results.map((res) => {
         // Generate explanation using the service
-        const explanation = explanationService.generateExplanation(res);
+        const explanation = generateExplanation(res);
 
         run(
             'INSERT INTO diagnosis_outputs (id, session_id, disease_id, confidence, explanation) VALUES (?, ?, ?, ?, ?)',
